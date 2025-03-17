@@ -32,7 +32,6 @@ async def create_user(user: User_body):
     if type(search_user("email", user.email)) is User:
         raise HTTPException(status_code=400, detail="User already exists")
     user_dict = dict(user)
-    del user_dict["id"]
     id = db_client.users.insert_one(user_dict).inserted_id
     new_user = search_user("_id", ObjectId(id))
 
