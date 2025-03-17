@@ -14,8 +14,11 @@ router = APIRouter(
 
 @router.get("/", response_model=List[User])
 async def get_users():
-    users = user_list_schema(db_client.users.find())
-    return users if users else []
+    try:
+        users = user_list_schema(db_client.users.find())
+    except:
+        raise HTTPException(status_code=404, detail="Users not found")
+    return users
 
 
 @router.get("/{id}", response_model=Union[User, dict])
