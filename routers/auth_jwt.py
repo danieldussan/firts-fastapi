@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import jwt
-from const import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, JWT_SECRET_KEY
+from const import ACCESS_TOKEN_EXPIRE_TIME, ALGORITHM, JWT_SECRET_KEY
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
@@ -85,7 +85,7 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
         )
     access_token = {
         "sub": user_db.username,
-        "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_TIME),
     }
     token = jwt.encode(access_token, JWT_SECRET_KEY, algorithm=ALGORITHM)
 
