@@ -14,7 +14,8 @@ router = APIRouter(
 
 @router.get("/", response_model=List[User])
 async def get_users():
-    return search_all_users()
+    users = user_list_schema(db_client.users.find())
+    return users if users else []
 
 
 @router.get("/{id}", response_model=Union[User, dict])
@@ -79,11 +80,3 @@ def search_user(key: str, value):
         return User(**user)
     except:
         return {"error": "User not found"}
-
-
-def search_all_users() -> List[User] | dict:
-    try:
-        users = user_list_schema(db_client.users.find())
-        return users
-    except:
-        return {"error": "Users not found"}
