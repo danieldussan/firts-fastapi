@@ -2,7 +2,7 @@ from typing import List, Union
 
 from bson import ObjectId
 from db.client import db_client
-from db.models.user import User
+from db.models.user import User, User_body
 from db.schemas.user import user_list_schema, user_schema
 from fastapi import APIRouter, HTTPException
 
@@ -28,7 +28,7 @@ async def get_user_by(id: str):
 
 
 @router.post("/", response_model=User, status_code=201)
-async def create_user(user: User):
+async def create_user(user: User_body):
     if type(search_user("email", user.email)) is User:
         raise HTTPException(status_code=400, detail="User already exists")
     user_dict = dict(user)

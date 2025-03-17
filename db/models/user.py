@@ -6,3 +6,8 @@ class User(BaseModel):
     id: Optional[str] = None
     username: str
     email: str
+
+
+class User_body(BaseModel):
+    username: str
+    email: str
